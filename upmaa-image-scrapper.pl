@@ -2,7 +2,7 @@
 
 #!/usr/local/bin/perl
 use warnings;
-#use strict; 
+use strict; 
 use feature qw(say);
 use FindBin;
 use Data::Dumper;
@@ -53,20 +53,12 @@ sub download_images( $_ ) {
 # begin sub
 sub load_emu_data( $ ) {
 	my $edata = shift;
-	open (EMU_EXPORT, 'C:\\Users\\reg1\\Desktop\\all-latest\\web_image_export.csv') or die $!;
+	open (EMU_EXPORT, $csv_path) or die $!;
 	while (<EMU_EXPORT>) {
 		chomp;
 		(my $emuobjectid, my $url) = split(",");
 		say $emuobjectid;
 		download_images($emuobjectid, $url);
-		#say $url;
-		#($emuobjectid) = $emuobjectid =~ /"([^"]*)"/;
-		# $emuobjectid = uc($emuobjectid);
-		#$edata->{ $emuobjectid } = {
-		#		objectid => $emuobjectid,
-		#		url => $url,
-		#	};
-		#
 	}
 	return $edata;
 }
@@ -76,15 +68,20 @@ sub load_emu_data( $ ) {
 
 # CHANGE THIS to download images for a new object		
 # my $obj_url = "http://penn.museum/collections/object/148826";
+
 # CHANGE THIS PATH TO BE THE OBJECT ID
 #$d_path = "./c450/";
+
+
+# TODO -- pass the path the the emu data dump at runtime. This should probably be the .json data dump and NOT csv.
+# 
 
 
 my %emudata; 
 # load emu catalog data
 $emudata_ref = load_emu_data(\%emudata);
 %emudata = %$emudata_ref;
-say "EMu data loaded";
+say "csv data loaded";
 
 # say Dumper(%emudata);
 
